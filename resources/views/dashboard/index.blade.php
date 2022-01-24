@@ -102,7 +102,7 @@
                                     <h6 class="text-warning">Jumlah Pegawai</h6>
                                 </div>
                                 <div class="col-6 text-center">
-                                    <i class="mdi mdi-archive text-warning" style="font-size: 64px"></i>
+                                    <i class="mdi mdi-account-box-multiple text-warning" style="font-size: 64px"></i>
                                 </div>
                             </div>
                         </div><!-- end card body -->

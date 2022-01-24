@@ -115,22 +115,20 @@ class ArsipController extends Controller
                 ->join('tipe_arsip','arsip.kd_tipe_arsip','=','tipe_arsip.kd_tipe_arsip')
                 ->join('users','arsip.kd_user','=','users.kd_user')
                 ->select('arsip.*','tipe_arsip.nama_tipe_arsip','tipe_arsip.uri','users.nama_pegawai')
+                ->where('tahun',session('tahun'))
+                ->when(request('keyword') != '', function ($query) {
+                    if (strpos(request('keyword'), ' ') == true) {
+                        $search = explode(' ',request('keyword'));
+                        foreach ($search as $key) {
+                            $query->where(DB::raw('concat_ws(arsip.nama_arsip," ",arsip.keterangan," ",arsip.tahun," ",arsip.jenis," ",tipe_arsip.nama_tipe_arsip," ",tipe_arsip.uri," ",users.nama_pegawai)') , 'LIKE' , '%'.$key.'%');
+                        }
+                    }else{
+                        $query->where(DB::raw('concat_ws(arsip.nama_arsip," ",arsip.keterangan," ",arsip.tahun," ",arsip.jenis," ",tipe_arsip.nama_tipe_arsip," ",tipe_arsip.uri," ",users.nama_pegawai)') , 'LIKE' , '%'.request('keyword').'%');
+                    }
+                    return $query;
+                })
                 ->orderBy('created_at','desc');
             return DataTables::of($data)
-                ->filter(function ($query) {
-                    if (request()->has('keyword')) {
-                        if (request('keyword') != "") {
-                            if (strpos(request('keyword'), ' ') == true) {
-                                $search = explode(' ',request('keyword'));
-                                foreach ($search as $key) {
-                                    $query->where(DB::raw('concat_ws(arsip.nama_arsip," ",arsip.keterangan," ",arsip.tahun," ",arsip.jenis," ",tipe_arsip.nama_tipe_arsip," ",tipe_arsip.uri," ",users.nama_pegawai)') , 'LIKE' , '%'.$key.'%');
-                                }
-                            }else{
-                                $query->where(DB::raw('concat_ws(arsip.nama_arsip," ",arsip.keterangan," ",arsip.tahun," ",arsip.jenis," ",tipe_arsip.nama_tipe_arsip," ",tipe_arsip.uri," ",users.nama_pegawai)') , 'LIKE' , '%'.request('keyword').'%');
-                            }
-                        }
-                    }
-                })
                 ->addIndexColumn()
                 ->addColumn('tgl_upload',function($data){
                     return tanggal_indo(date('Y-m-d',strtotime($data->created_at))).',<br/>'.date('H:i:s',strtotime($data->created_at));

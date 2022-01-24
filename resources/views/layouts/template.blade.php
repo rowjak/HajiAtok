@@ -180,7 +180,7 @@
 
                         <form class="app-search d-none d-lg-block ps-4" method="get" action="{{ route('arsip.search') }}">
                             <div class="position-relative">
-                                <input type="text" class="form-control" placeholder="Pencarian..." name="keyword">
+                                <input type="text" class="form-control" placeholder="Pencarian..." name="keyword" required>
                                 <button class="btn btn-info" type="submit"><i class="bx bx-search-alt align-middle"></i></button>
                             </div>
                         </form>
@@ -220,9 +220,9 @@
                                     d-xl-inline-block"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="javascript:;" onclick="ubahPassword()"><i class="mdi
+                                {{-- <a class="dropdown-item" href="javascript:;" onclick="ubahPassword()"><i class="mdi
                                         mdi-lock font-size-16 align-middle
-                                        me-1"></i> Ubah Password</a>
+                                        me-1"></i> Ubah Password</a> --}}
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="javascript:;"  onclick="document.getElementById('formLogout').submit()"><i class="mdi
                                         mdi-logout font-size-16 align-middle
